@@ -1,54 +1,75 @@
 import React from 'react';
 import styled from 'styled-components';
+import { TextField } from './TextField';
+import { Checkbox } from './Checkbox';
+import { Button } from './Button';
+import { Group } from './Group';
 
 const Form = styled.form`
   padding: 36px;
-  background: #2d2d2d;
-`;
-
-const ButtonGroup = styled.div`
   width: 100%;
-
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 `;
 
-const Button = styled.button`
-  padding: 0.5em 2em;
+const Todos = styled.ul`
+  width: 100%;
+  margin-top: 61px;
+  margin-bottom: 61px;
+  padding-top: 61px;
+  height: 100%;
 
-  color: #ffffff;
-  background: #ff9900;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  border: none;
+  list-style: none;
+  border-top: 4px solid #ff9900;
+  overflow-y: scroll;
+`;
 
-  text-transform: uppercase;
-  font-weight: 500;
-  line-height: 42px;
-  font-size: 36px;
+const Todo = styled.li`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
-  &.cancel {
-    font-weight: 300;
-    font-size: 48px;
-    line-height: 56px;
-
-    color: #ff9900;
-    background: transparent;
-    box-shadow: none;
-    padding: 0;
-    margin-left: 32px;
-  }
+  width: 100%;
+  margin-bottom: 16px;
 `;
 
 export const TodoForm = () => {
+  const cancelTodoHandler = (e) => {
+    e.preventDefault();
+  };
+
+  const addTodoHandler = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Form>
-      <input type='text' />
-      <ButtonGroup>
-        <Button className='cancel'>Cancel</Button>
+      <TextField type='text' />
+      <Todos>
+        <Todo>
+          <Checkbox />
+          <TextField className='todo' placeholder='Task name' />
+        </Todo>
+
+        <Todo>
+          <Checkbox />
+          <TextField className='todo' placeholder='Task name' />
+        </Todo>
+
+        <Group className='todo'>
+          <Button className='small secondary' onClick={cancelTodoHandler}>
+            Cancel
+          </Button>
+          <Button className='small' onClick={addTodoHandler}>
+            Add
+          </Button>
+        </Group>
+      </Todos>
+
+      <Group>
+        <Button className='text'>Cancel</Button>
         <Button>Save</Button>
-      </ButtonGroup>
+      </Group>
     </Form>
   );
 };

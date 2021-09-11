@@ -1,5 +1,5 @@
 .App {
   background: #1a1a1a;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 }
