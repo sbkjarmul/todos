@@ -22,9 +22,6 @@ const Window = styled.div`
 
   margin-top: 136px;
   margin-bottom: 105px;
-  padding: 36px;
-
-  background: #2d2d2d;
 `;
 
 export const Modal = ({ closeModalHandler, children }) => {

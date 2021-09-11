@@ -4,6 +4,7 @@ import { Navbar } from './Navbar';
 import { TodoList } from './TodoList';
 import { Container } from './Container';
 import { Modal } from './Modal';
+import { TodoForm } from './TodoForm';
 
 const TodoLists = styled.ul`
   display: flex;
@@ -63,7 +64,7 @@ export const TodoPage = () => {
         <AddListButton onClick={openListHandler}>+</AddListButton>
         {isListOpen && (
           <Modal closeModalHandler={closeListHandler}>
-            <h1>elo</h1>
+            <TodoForm />
           </Modal>
         )}
       </Container>
