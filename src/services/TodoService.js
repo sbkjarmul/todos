@@ -11,14 +11,21 @@ export class TodoService {
   // }
 
   async getTodoLists() {
-    const response = this.todoRepository.getTodoLists();
-    console.log(response);
+    const response = await this.todoRepository.getTodoLists();
+    const domain = response.data.map((dto) => {
+      console.log(dto);
+      const domainObj = this.todoMapper.fromDtoToDomain(dto);
+      console.log('Domain: ', domainObj);
+
+      return domainObj;
+    });
+    console.log(domain);
+    return domain;
   }
 
   async addTodoList(list) {
     const dto = this.todoMapper.fromDomainToDto(list);
-    const response = this.todoRepository.addTodoList(dto);
-
+    const response = await this.todoRepository.addTodoList(dto);
     return response;
   }
 }

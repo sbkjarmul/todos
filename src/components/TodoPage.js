@@ -48,6 +48,7 @@ const AddListButton = styled.button`
 
 export const TodoPage = () => {
   const [isListOpen, setIsListOpen] = useState(false);
+  const [todoLists, setTodoLists] = useState([]);
 
   const closeListHandler = () => {
     setIsListOpen(false);
@@ -57,17 +58,18 @@ export const TodoPage = () => {
     setIsListOpen(true);
   };
 
-  // useEffect(() => {
-  //   const todoService = new TodoService();
+  useEffect(() => {
+    const todoService = new TodoService();
 
-  //   (async () => {
-  //     try {
-  //       todoService.getTodoLists();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   })();
-  // }, []);
+    (async () => {
+      try {
+        const data = await todoService.getTodoLists();
+        setTodoLists(data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   const registerUser = async () => {
     const userService = new UserService();
@@ -139,8 +141,9 @@ export const TodoPage = () => {
       <Navbar />
       <Container>
         <TodoLists>
-          <TodoList />
-          <TodoList />
+          {todoLists.map((todoList) => (
+            <TodoList key={todoList.id} todoList={todoList} />
+          ))}
         </TodoLists>
         <AddListButton onClick={openListHandler}>+</AddListButton>
         {isListOpen && (

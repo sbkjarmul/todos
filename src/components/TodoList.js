@@ -18,12 +18,20 @@ const TodoListContainer = styled.li`
   font-size: 24px;
 `;
 
-export const TodoList = () => {
+export const TodoList = ({ todoList }) => {
+  const allTasks = todoList.task.length;
+  const complatedTasks = todoList.task.filter((task) => task.isDone === true)
+    .length;
+  const uncomplatedTasks = allTasks - complatedTasks;
+
   return (
     <TodoListContainer>
-      <strong>ToDo List Name</strong>
-      <i>Created at: 18-03-2021</i>
-      <span>Complated: 15 Uncomplated: 10 All: 25</span>
+      <strong>{todoList.name}</strong>
+      <i>Created at: {todoList.createdAt}</i>
+      <span>
+        Complated: {complatedTasks} Uncomplated: {uncomplatedTasks} All:{' '}
+        {allTasks}
+      </span>
     </TodoListContainer>
   );
 };
