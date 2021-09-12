@@ -64,7 +64,7 @@ export const TodoPage = () => {
         <AddListButton onClick={openListHandler}>+</AddListButton>
         {isListOpen && (
           <Modal closeModalHandler={closeListHandler}>
-            <TodoForm />
+            <TodoForm closeForm={closeListHandler} />
           </Modal>
         )}
       </Container>

@@ -33,13 +33,18 @@ const Todo = styled.li`
   margin-bottom: 16px;
 `;
 
-export const TodoForm = () => {
+export const TodoForm = ({ closeForm }) => {
   const cancelTodoHandler = (e) => {
     e.preventDefault();
   };
 
   const addTodoHandler = (e) => {
     e.preventDefault();
+  };
+
+  const closeFormHandler = (e) => {
+    e.preventDefault();
+    closeForm();
   };
 
   return (
@@ -67,7 +72,9 @@ export const TodoForm = () => {
       </Todos>
 
       <Group>
-        <Button className='text'>Cancel</Button>
+        <Button className='text' onClick={closeFormHandler}>
+          Cancel
+        </Button>
         <Button>Save</Button>
       </Group>
     </Form>

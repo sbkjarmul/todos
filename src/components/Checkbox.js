@@ -63,7 +63,7 @@ export const Checkbox = () => {
 
   return (
     <Box onClick={onClickHandler}>
-      <input type='checkbox' checked={isChecked} />
+      <input type='checkbox' checked={isChecked} onChange={onClickHandler} />
       <span>
         <CheckMark />
       </span>
