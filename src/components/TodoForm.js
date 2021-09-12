@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TextField } from './TextField';
-import { Checkbox } from './Checkbox';
 import { Button } from './Button';
 import { Group } from './Group';
+import { TodoItem } from './TodoItem';
+import { TodoService } from '../services/TodoService';
 
 const Form = styled.form`
   padding: 36px;
@@ -24,22 +25,26 @@ const Todos = styled.ul`
   overflow-y: scroll;
 `;
 
-const Todo = styled.li`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  width: 100%;
-  margin-bottom: 16px;
-`;
-
 export const TodoForm = ({ closeForm }) => {
+  console.log('Todoform render');
+  const [todos, setTodos] = useState([]);
+  const [listName, setListName] = useState('');
+
   const cancelTodoHandler = (e) => {
     e.preventDefault();
+    setTodos(todos.slice(0, todos.length - 1));
   };
 
   const addTodoHandler = (e) => {
     e.preventDefault();
+
+    const todo = {
+      id: getRandomId('todo'),
+      name: '',
+      isDone: false,
+    };
+
+    setTodos([...todos, todo]);
   };
 
   const closeFormHandler = (e) => {
@@ -47,22 +52,65 @@ export const TodoForm = ({ closeForm }) => {
     closeForm();
   };
 
-  return (
-    <Form>
-      <TextField type='text' />
-      <Todos>
-        <Todo>
-          <Checkbox />
-          <TextField className='todo' placeholder='Task name' />
-        </Todo>
+  const setCancelButtonClass = () => {
+    if (isCancelButtonDisabled) {
+      return 'small secondary disabled';
+    }
 
-        <Todo>
-          <Checkbox />
-          <TextField className='todo' placeholder='Task name' />
-        </Todo>
+    return 'small secondary';
+  };
+
+  const isCancelButtonDisabled = todos.length > 0 ? false : true;
+
+  const getRandomId = (name = '') => {
+    return name + Math.floor(Math.random() * (1000 - 1) + 1);
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const todoService = new TodoService();
+
+    const todoList = {
+      name: listName,
+      task: todos,
+    };
+
+    try {
+      const response = todoService.addTodoList(todoList);
+      console.log(response);
+      closeFormHandler(e);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onChangeHandler = (e) => {
+    setListName(e.target.value);
+  };
+
+  return (
+    <Form onSubmit={onSubmitHandler}>
+      <TextField
+        type='text'
+        value={listName}
+        onChange={onChangeHandler}
+        placeholder='List name'
+      />
+      <Todos>
+        {todos.map((todo) => (
+          <TodoItem
+            key={getRandomId(todo.name)}
+            todo={todo}
+            setTodos={setTodos}
+          />
+        ))}
 
         <Group className='todo'>
-          <Button className='small secondary' onClick={cancelTodoHandler}>
+          <Button
+            className={setCancelButtonClass()}
+            disabled={isCancelButtonDisabled}
+            onClick={cancelTodoHandler}
+          >
             Cancel
           </Button>
           <Button className='small' onClick={addTodoHandler}>

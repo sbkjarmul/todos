@@ -36,6 +36,19 @@ class HttpClientFascade {
 
     return this.httpClient(config);
   }
+
+  async delete({ url }) {
+    const config = {
+      method: 'delete',
+      url: url,
+      headers: {
+        accept: 'application/json',
+        Authorization: TOKEN,
+      },
+    };
+
+    return this.httpClient(config);
+  }
 }
 
 const httpClient = new HttpClientFascade(apiClientInstance);

@@ -17,4 +17,10 @@ export class TodoRepository {
       data: data,
     });
   }
+
+  deleteTodoList(id) {
+    return this.httpClient.delete({
+      url: `https://recruitment.ultimate.systems/to-do-lists/${id}`,
+    });
+  }
 }

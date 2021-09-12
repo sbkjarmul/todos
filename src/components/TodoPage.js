@@ -93,46 +93,10 @@ export const TodoPage = () => {
       password: 'pass',
     };
 
-    console.log(user);
-
     try {
       await userService.login(user);
     } catch (e) {
       console.log(e.message);
-    }
-  };
-
-  const getList = async () => {
-    const todoService = new TodoService();
-
-    try {
-      await todoService.getTodoLists();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const addList = async () => {
-    const todoService = new TodoService();
-
-    const list = {
-      name: 'List Sbk',
-      task: [
-        {
-          name: 'Task 1',
-          isDone: false,
-        },
-        {
-          name: 'Task 2',
-          isDone: true,
-        },
-      ],
-    };
-
-    try {
-      await todoService.addTodoList(list);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -154,8 +118,6 @@ export const TodoPage = () => {
         <Group>
           <Button onClick={registerUser}>Register User</Button>
           <Button onClick={loginUser}>Login User</Button>
-          <Button onClick={getList}>Get Todos</Button>
-          <Button onClick={addList}>Add Todo List</Button>
         </Group>
       </Container>
     </div>

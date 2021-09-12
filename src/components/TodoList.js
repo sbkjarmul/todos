@@ -18,7 +18,7 @@ const TodoListContainer = styled.li`
   font-size: 24px;
 `;
 
-export const TodoList = ({ todoList }) => {
+export const TodoList = ({ todoList, onClick }) => {
   const allTasks = todoList.task.length;
   const complatedTasks = todoList.task.filter((task) => task.isDone === true)
     .length;

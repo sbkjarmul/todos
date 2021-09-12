@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const Box = styled.span`
@@ -54,11 +54,10 @@ const CheckMark = () => {
   );
 };
 
-export const Checkbox = () => {
-  const [isChecked, setIsChecked] = useState(false);
-
+export const Checkbox = ({ isChecked, setIsChecked, inputRef }) => {
   const onClickHandler = () => {
     setIsChecked((isChecked) => !isChecked);
+    inputRef.current.focus();
   };
 
   return (
