@@ -13,6 +13,7 @@ export class TodoMapper {
 
   fromDtoToDomain(dto) {
     const domain = new Todo();
+
     domain.name = dto.name;
     domain.task = dto.task;
 

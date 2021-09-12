@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Navbar } from './Navbar';
 import { TodoList } from './TodoList';
 import { Container } from './Container';
 import { Modal } from './Modal';
 import { TodoForm } from './TodoForm';
+import { TodoService } from '../services/TodoService';
+import { Button } from './Button';
+import { UserService } from '../services/UserService';
+import { Group } from './Group';
 
 const TodoLists = styled.ul`
   display: flex;
@@ -53,6 +57,83 @@ export const TodoPage = () => {
     setIsListOpen(true);
   };
 
+  // useEffect(() => {
+  //   const todoService = new TodoService();
+
+  //   (async () => {
+  //     try {
+  //       todoService.getTodoLists();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })();
+  // }, []);
+
+  const registerUser = async () => {
+    const userService = new UserService();
+    const user = {
+      username: 'sbktest',
+      email: 'sbktest@gmail.com',
+      password: 'pass',
+    };
+
+    try {
+      userService.register(user);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const loginUser = async () => {
+    const userService = new UserService();
+    const user = {
+      identifier: 'sbktest',
+      password: 'pass',
+    };
+
+    console.log(user);
+
+    try {
+      await userService.login(user);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const getList = async () => {
+    const todoService = new TodoService();
+
+    try {
+      await todoService.getTodoLists();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addList = async () => {
+    const todoService = new TodoService();
+
+    const list = {
+      name: 'List Sbk',
+      task: [
+        {
+          name: 'Task 1',
+          isDone: false,
+        },
+        {
+          name: 'Task 2',
+          isDone: true,
+        },
+      ],
+    };
+
+    try {
+      await todoService.addTodoList(list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -67,6 +148,12 @@ export const TodoPage = () => {
             <TodoForm closeForm={closeListHandler} />
           </Modal>
         )}
+        <Group>
+          <Button onClick={registerUser}>Register User</Button>
+          <Button onClick={loginUser}>Login User</Button>
+          <Button onClick={getList}>Get Todos</Button>
+          <Button onClick={addList}>Add Todo List</Button>
+        </Group>
       </Container>
     </div>
   );
