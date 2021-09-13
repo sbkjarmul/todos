@@ -112,7 +112,6 @@ export const TodoPage = () => {
   return (
     <div>
       <Navbar />
-      {JSON.stringify(todoLists[0])}
       <Container>
         <TodoLists>
           {todoLists.map((todoList) => (

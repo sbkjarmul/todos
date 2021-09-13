@@ -33,6 +33,11 @@ export const todoListSlice = createSlice({
       state.todoLists = action.payload;
     },
   },
+  extraReducers: {
+    'todoList/fetchTodoLists/fulfilled': (state, action) => {
+      state.todoLists = action.payload;
+    },
+  },
 });
 
 export const { clearState, setTodoList } = todoListSlice.actions;
