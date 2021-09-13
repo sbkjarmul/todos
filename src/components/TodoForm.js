@@ -6,6 +6,8 @@ import { Group } from './Group';
 import { TodoItem } from './TodoItem';
 import { TodoService } from '../services/TodoService';
 import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { fetchTodoLists } from '../store/slices/todoListSlice';
 
 const Form = styled.form`
   padding: 36px;
@@ -30,6 +32,7 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
   console.log('Todoform render');
   const [todos, setTodos] = useState(listData.task || []);
   const [listName, setListName] = useState(listData.name || '');
+  const dispatch = useDispatch();
 
   const cancelTodoHandler = (e) => {
     e.preventDefault();
@@ -78,14 +81,12 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
     };
 
     try {
-      const response = await todoService.editTodoList(todoList);
+      const { status } = await todoService.editTodoList(todoList);
 
-      if (response.status === 200) {
+      if (status === 200) {
+        dispatch(fetchTodoLists());
+        closeFormHandler(e);
       }
-
-      console.log(response);
-
-      closeFormHandler(e);
     } catch (error) {
       console.log(error);
     }
@@ -102,6 +103,7 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
       const { status } = await todoService.addTodoList(todoList);
 
       if (status === 200) {
+        dispatch(fetchTodoLists());
         closeFormHandler(e);
       }
     } catch (error) {

@@ -5,6 +5,8 @@ import { Group } from './Group';
 import { Modal } from './Modal';
 import { TodoForm } from './TodoForm';
 import { TodoService } from '../services/TodoService';
+import { useDispatch } from 'react-redux';
+import { fetchTodoLists } from '../store/slices/todoListSlice';
 
 const TodoListContainer = styled.li`
   position: relative;
@@ -52,6 +54,7 @@ export const TodoList = ({ todoList }) => {
   const complatedTasks = todoList.task.filter((task) => task.isDone === true)
     .length;
   const uncomplatedTasks = allTasks - complatedTasks;
+  const dispatch = useDispatch();
 
   const closeListHandler = () => {
     setIsListOpen(false);
@@ -61,11 +64,15 @@ export const TodoList = ({ todoList }) => {
     setIsListOpen(true);
   };
 
-  const deleteHandler = () => {
+  const deleteHandler = async () => {
     const todoService = new TodoService();
 
     try {
-      todoService.deleteTodoList(todoList.id);
+      const { status } = await todoService.deleteTodoList(todoList.id);
+
+      if (status === 200) {
+        dispatch(fetchTodoLists());
+      }
     } catch (e) {
       console.log(e);
     }
