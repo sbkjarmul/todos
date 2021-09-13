@@ -5,6 +5,7 @@ import { Button } from './Button';
 import { Group } from './Group';
 import { TodoItem } from './TodoItem';
 import { TodoService } from '../services/TodoService';
+import { nanoid } from 'nanoid';
 
 const Form = styled.form`
   padding: 36px;
@@ -39,7 +40,7 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
     e.preventDefault();
 
     const todo = {
-      id: getRandomId(),
+      id: nanoid(),
       name: '',
       isDone: false,
     };
@@ -61,10 +62,6 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
   };
 
   const isCancelButtonDisabled = todos.length > 0 ? false : true;
-
-  const getRandomId = (name = '') => {
-    return name + Math.floor(Math.random() * (1000 - 1) + 1);
-  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -136,7 +133,7 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
       />
       <Todos>
         {todos.map((todo) => (
-          <TodoItem key={getRandomId()} todo={todo} setTodos={setTodos} />
+          <TodoItem key={nanoid()} todo={todo} setTodos={setTodos} />
         ))}
 
         <Group className='todo'>
