@@ -23,6 +23,13 @@ export class TodoService {
     return response;
   }
 
+  async editTodoList(list) {
+    const dto = this.todoMapper.fromDomainToDto(list);
+    const response = await this.todoRepository.editTodoList(dto);
+
+    return response;
+  }
+
   async deleteTodoList(listId) {
     const response = await this.todoRepository.deleteTodoList(listId);
 

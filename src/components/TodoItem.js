@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { TextField } from './TextField';
 import { Checkbox } from './Checkbox';

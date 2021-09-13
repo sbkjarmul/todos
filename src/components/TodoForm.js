@@ -25,10 +25,10 @@ const Todos = styled.ul`
   overflow-y: scroll;
 `;
 
-export const TodoForm = ({ closeForm }) => {
+export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
   console.log('Todoform render');
-  const [todos, setTodos] = useState([]);
-  const [listName, setListName] = useState('');
+  const [todos, setTodos] = useState(listData.task || []);
+  const [listName, setListName] = useState(listData.name || '');
 
   const cancelTodoHandler = (e) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ export const TodoForm = ({ closeForm }) => {
     e.preventDefault();
 
     const todo = {
-      id: getRandomId('todo'),
+      id: getRandomId(),
       name: '',
       isDone: false,
     };
@@ -68,17 +68,55 @@ export const TodoForm = ({ closeForm }) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+
+    if (isEdit) {
+      editList(e);
+    } else {
+      addList(e);
+    }
+  };
+
+  const editList = async (e) => {
+    const todoService = new TodoService();
+
+    const tasks = todos.map((todo) => {
+      delete todo.id;
+      return todo;
+    });
+
+    const todoList = {
+      id: listData.id,
+      name: listName,
+      task: tasks,
+    };
+
+    try {
+      const response = await todoService.editTodoList(todoList);
+
+      if (response.status === 200) {
+      }
+
+      console.log(response);
+
+      closeFormHandler(e);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addList = async (e) => {
     const todoService = new TodoService();
 
     const todoList = {
       name: listName,
       task: todos,
     };
-
     try {
-      const response = todoService.addTodoList(todoList);
-      console.log(response);
-      closeFormHandler(e);
+      const { status } = await todoService.addTodoList(todoList);
+
+      if (status === 200) {
+        closeFormHandler(e);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -98,11 +136,7 @@ export const TodoForm = ({ closeForm }) => {
       />
       <Todos>
         {todos.map((todo) => (
-          <TodoItem
-            key={getRandomId(todo.name)}
-            todo={todo}
-            setTodos={setTodos}
-          />
+          <TodoItem key={getRandomId()} todo={todo} setTodos={setTodos} />
         ))}
 
         <Group className='todo'>

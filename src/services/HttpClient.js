@@ -37,6 +37,20 @@ class HttpClientFascade {
     return this.httpClient(config);
   }
 
+  async put({ url, data }) {
+    const config = {
+      method: 'put',
+      url: url,
+      headers: {
+        accept: 'application/json',
+        Authorization: TOKEN,
+      },
+      data: data,
+    };
+
+    return this.httpClient(config);
+  }
+
   async delete({ url }) {
     const config = {
       method: 'delete',
