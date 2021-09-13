@@ -10,6 +10,7 @@ import { Button } from './Button';
 import { UserService } from '../services/UserService';
 import { Group } from './Group';
 
+import { selectAllLists, fetchTodoLists } from '../store/slices/todoListSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 const TodoLists = styled.ul`
@@ -50,7 +51,9 @@ const AddListButton = styled.button`
 
 export const TodoPage = () => {
   const [isListOpen, setIsListOpen] = useState(false);
-  const [todoLists, setTodoLists] = useState([]);
+  // const [todoLists, setTodoLists] = useState([]);
+  const dispatch = useDispatch();
+  const todoLists = useSelector(selectAllLists);
 
   const closeListHandler = () => {
     setIsListOpen(false);
@@ -60,17 +63,21 @@ export const TodoPage = () => {
     setIsListOpen(true);
   };
 
-  useEffect(() => {
-    const todoService = new TodoService();
+  // useEffect(() => {
+  //   const todoService = new TodoService();
 
-    (async () => {
-      try {
-        const data = await todoService.getTodoLists();
-        setTodoLists(data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+  //   (async () => {
+  //     try {
+  //       const data = await todoService.getTodoLists();
+  //       setTodoLists(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })();
+  // }, []);
+
+  useEffect(() => {
+    dispatch(fetchTodoLists());
   }, []);
 
   const registerUser = async () => {
@@ -105,6 +112,7 @@ export const TodoPage = () => {
   return (
     <div>
       <Navbar />
+      {JSON.stringify(todoLists[0])}
       <Container>
         <TodoLists>
           {todoLists.map((todoList) => (

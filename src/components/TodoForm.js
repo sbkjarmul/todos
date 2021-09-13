@@ -53,16 +53,6 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
     closeForm();
   };
 
-  const setCancelButtonClass = () => {
-    if (isCancelButtonDisabled) {
-      return 'small secondary disabled';
-    }
-
-    return 'small secondary';
-  };
-
-  const isCancelButtonDisabled = todos.length > 0 ? false : true;
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -123,6 +113,26 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
     setListName(e.target.value);
   };
 
+  const getCancelButtonClass = () => {
+    if (isCancelButtonDisabled) {
+      return 'small secondary disabled';
+    }
+
+    return 'small secondary';
+  };
+
+  const getSaveButtonClass = () => {
+    if (!canSave) {
+      return 'disabled';
+    }
+
+    return '';
+  };
+
+  const isCancelButtonDisabled = todos.length > 0 ? false : true;
+
+  const canSave = Boolean(listName) && todos.length > 0;
+
   return (
     <Form onSubmit={onSubmitHandler}>
       <TextField
@@ -138,7 +148,7 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
 
         <Group className='todo'>
           <Button
-            className={setCancelButtonClass()}
+            className={getCancelButtonClass()}
             disabled={isCancelButtonDisabled}
             onClick={cancelTodoHandler}
           >
@@ -154,7 +164,9 @@ export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
         <Button className='text' onClick={closeFormHandler}>
           Cancel
         </Button>
-        <Button>Save</Button>
+        <Button className={getSaveButtonClass()} disabled={!canSave}>
+          Save
+        </Button>
       </Group>
     </Form>
   );
