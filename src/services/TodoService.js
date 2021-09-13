@@ -7,13 +7,13 @@ export class TodoService {
 
   async getTodoLists() {
     const response = await this.todoRepository.getTodoLists();
-    const domain = response.data.map((dto) => {
-      const domainObj = this.todoMapper.fromDtoToDomain(dto);
+    const domains = response.data.map((dto) => {
+      const domain = this.todoMapper.fromDtoToDomain(dto);
 
-      return domainObj;
+      return domain;
     });
 
-    return domain;
+    return domains;
   }
 
   async addTodoList(list) {
