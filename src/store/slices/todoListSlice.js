@@ -8,7 +8,6 @@ export const fetchTodoLists = createAsyncThunk(
 
     try {
       const response = await todoService.getTodoLists();
-      console.log('THUNK: ', response);
       return response;
     } catch (e) {
       console.log(e);
@@ -22,8 +21,6 @@ export const todoListSlice = createSlice({
     todoLists: [],
     status: 'idle',
     error: null,
-    // isFetching: false,
-    // isError: false,
   },
   reducers: {
     clearState: (state) => {
@@ -34,8 +31,16 @@ export const todoListSlice = createSlice({
     },
   },
   extraReducers: {
+    'todoList/fetchTodoList/pending': (state, action) => {
+      state.status = 'loading';
+    },
     'todoList/fetchTodoLists/fulfilled': (state, action) => {
       state.todoLists = action.payload;
+      state.status = 'succeeded';
+    },
+    'todoList/fetchTodoList/rejected': (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
     },
   },
 });

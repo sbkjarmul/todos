@@ -8,14 +8,12 @@ export class UserService {
   async login(user) {
     const dto = this.userMapper.fromDomainToDto(user);
     const response = await this.userRepository.login(dto);
-    console.log(response);
     return response;
   }
 
   async register(user) {
     const dto = this.userMapper.fromDomainToDto(user);
     const response = await this.userRepository.register(dto);
-    console.log(response);
 
     return response;
   }

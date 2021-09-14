@@ -5,13 +5,13 @@ import { TodoList } from './TodoList';
 import { Container } from './Container';
 import { Modal } from './Modal';
 import { TodoForm } from './TodoForm';
-import { TodoService } from '../services/TodoService';
 import { Button } from './Button';
 import { UserService } from '../services/UserService';
 import { Group } from './Group';
 
 import { selectAllLists, fetchTodoLists } from '../store/slices/todoListSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { Loader } from './Loader';
 
 const TodoLists = styled.ul`
   display: flex;
@@ -54,6 +54,8 @@ export const TodoPage = () => {
   // const [todoLists, setTodoLists] = useState([]);
   const dispatch = useDispatch();
   const todoLists = useSelector(selectAllLists);
+  const error = useSelector((state) => state.todoList.error);
+  const status = useSelector((state) => state.todoList.status);
 
   const closeListHandler = () => {
     setIsListOpen(false);
@@ -109,15 +111,28 @@ export const TodoPage = () => {
     }
   };
 
+  const showTodoLists = () => {
+    if (status === 'loading') {
+      return <Loader />;
+    }
+
+    if (status === 'succeeded') {
+      return todoLists.map((todoList) => (
+        <TodoList key={todoList.id} todoList={todoList} />
+      ));
+    }
+
+    if (status === 'failed') {
+      return error;
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <Container>
-        <TodoLists>
-          {todoLists.map((todoList) => (
-            <TodoList key={todoList.id} todoList={todoList} />
-          ))}
-        </TodoLists>
+        <TodoLists>{showTodoLists()}</TodoLists>
+
         <AddListButton onClick={openListHandler}>+</AddListButton>
         {isListOpen && (
           <Modal closeModalHandler={closeListHandler}>
