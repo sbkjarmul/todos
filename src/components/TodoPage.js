@@ -129,7 +129,7 @@ export const TodoPage = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar isLogout={true} />
       <Container>
         <TodoLists>{showTodoLists()}</TodoLists>
 

@@ -59,4 +59,9 @@ export const Button = styled.button`
   &.lowercase {
     text-transform: lowercase;
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;

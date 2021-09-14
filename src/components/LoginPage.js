@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Navbar } from './Navbar';
 import { Container } from './Container';
@@ -26,6 +27,8 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
+  color: white;
 `;
 
 const LoginHeader = styled.h1`
@@ -51,8 +54,10 @@ export const LoginPage = () => {
               <TextField placeholder='Password' type='password' />
             </Group>
             <Button>Login</Button>
-            <p>or</p>
-            <Button className='text lowercase'>create an account</Button>
+            <span>or</span>
+            <Button className='text lowercase'>
+              <Link to='/register'>create an account</Link>
+            </Button>
           </Form>
         </LoginBox>
       </Container>

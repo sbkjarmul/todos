@@ -12,11 +12,11 @@ const NavbarContainer = styled.nav`
   padding: 40px;
 `;
 
-export const Navbar = () => {
+export const Navbar = ({ isLogout = false }) => {
   return (
     <NavbarContainer>
       <Logo />
-      <LogoutIcon />
+      {isLogout && <LogoutIcon />}
     </NavbarContainer>
   );
 };
