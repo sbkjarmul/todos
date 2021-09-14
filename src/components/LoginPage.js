@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Navbar } from './Navbar';
 import { Container } from './Container';
 import { TextField } from './TextField';
 import { Button } from './Button';
 import { Group } from './Group';
+import { useForm } from 'react-hook-form';
+import { UserService } from '../services/UserService';
 
 const LoginBox = styled.div`
   display: flex;
@@ -42,16 +44,59 @@ const LoginHeader = styled.h1`
 `;
 
 export const LoginPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const history = useHistory();
+
+  const loginUser = async (user) => {
+    const userService = new UserService();
+
+    try {
+      const response = await userService.login(user);
+
+      if (response.status === 200) {
+        history.push('/todo');
+      }
+      console.log(response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const onSubmit = (data) => {
+    console.log(data);
+    loginUser(data);
+  };
+
+  //pola12345@wp.pl
+  //12345
+
   return (
     <div>
       <Navbar />
       <Container>
         <LoginBox>
           <LoginHeader>Login</LoginHeader>
-          <Form>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Group className='form'>
-              <TextField placeholder='Email or Username' type='input' />
-              <TextField placeholder='Password' type='password' />
+              <TextField
+                placeholder='Email or Username'
+                type='input'
+                defaultValue='pola12345'
+                {...register('identifier', { required: true })}
+              />
+              {errors.identifier && <span>This field is required</span>}
+              <TextField
+                placeholder='Password'
+                type='password'
+                defaultValue='12345'
+                {...register('password', { required: true })}
+              />
+              {errors.password && <span>This field is required</span>}
             </Group>
             <Button>Login</Button>
             <span>or</span>

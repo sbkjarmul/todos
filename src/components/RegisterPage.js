@@ -6,6 +6,8 @@ import { TextField } from './TextField';
 import { Button } from './Button';
 import { Group } from './Group';
 import { Link } from 'react-router-dom';
+import { UserService } from '../services/UserService';
+import { useForm } from 'react-hook-form';
 
 const LoginBox = styled.div`
   display: flex;
@@ -67,6 +69,29 @@ const ArrowLink = () => {
 };
 
 export const RegisterPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    delete data.passwordRepeat;
+    registerUser(data);
+  };
+
+  const registerUser = async (user) => {
+    console.log(user);
+
+    const userService = new UserService();
+
+    try {
+      userService.register(user);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -74,12 +99,36 @@ export const RegisterPage = () => {
         <LoginBox>
           <ArrowLink></ArrowLink>
           <LoginHeader>Create an new account</LoginHeader>
-          <Form>
+
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Group className='form'>
-              <TextField placeholder='Username' type='input' />
-              <TextField placeholder='Username' type='email' />
-              <TextField placeholder='Password' type='password' />
-              <TextField placeholder='Repeat password' type='password' />
+              <TextField
+                placeholder='Username'
+                type='input'
+                {...register('username', { required: true })}
+              />
+              {errors.username && <span>This field is required</span>}
+
+              <TextField
+                placeholder='Email'
+                type='email'
+                {...register('email', { required: true })}
+              />
+              {errors.email && <span>This field is required</span>}
+
+              <TextField
+                placeholder='Password'
+                type='password'
+                {...register('password', { required: true })}
+              />
+              {errors.password && <span>This field is required</span>}
+
+              <TextField
+                placeholder='Repeat password'
+                type='password'
+                {...register('passwordRepeat', { required: true })}
+              />
+              {errors.passwordRepeat && <span>This field is required</span>}
             </Group>
             <Button>Create</Button>
           </Form>

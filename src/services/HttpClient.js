@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const TOKEN =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mjg5LCJpYXQiOjE2MzE0NTcyNTUsImV4cCI6MTYzNDA0OTI1NX0.vIeJzGbb8h1_jcYpm8glu0oI4HVL03lcHhU_nBniHfM';
+// const TOKEN =
+//   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mjg5LCJpYXQiOjE2MzE0NTcyNTUsImV4cCI6MTYzNDA0OTI1NX0.vIeJzGbb8h1_jcYpm8glu0oI4HVL03lcHhU_nBniHfM';
+
+const TOKEN = localStorage.getItem('token');
 
 const apiClientInstance = axios.create();
 
@@ -23,13 +25,16 @@ class HttpClientFascade {
     return this.httpClient(config);
   }
 
+  //pola12345@wp.pl
+  //12345
+
   async post({ url, data }) {
     const config = {
       method: 'post',
       url: url,
       headers: {
         accept: 'application/json',
-        Authorization: TOKEN,
+        // Authorization: TOKEN,
       },
       data: data,
     };

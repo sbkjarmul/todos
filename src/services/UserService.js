@@ -8,6 +8,8 @@ export class UserService {
   async login(user) {
     const dto = this.userMapper.fromDomainToDto(user);
     const response = await this.userRepository.login(dto);
+
+    localStorage.setItem('token', `Bearer ${response.data.jwt}`);
     return response;
   }
 

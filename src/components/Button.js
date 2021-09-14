@@ -64,4 +64,17 @@ export const Button = styled.button`
     text-decoration: none;
     color: inherit;
   }
+
+  &.logout {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+
+    border-radius: 0;
+    min-width: fit-content;
+
+    &:hover {
+      border-bottom: 1px solid #ff9900;
+    }
+  }
 `;
