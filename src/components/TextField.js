@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TextField = styled.input.attrs((props) => ({ type: 'text' }))`
+export const TextField = styled.input`
   width: 100%;
   font-size: 24px;
   font-weight: 300;

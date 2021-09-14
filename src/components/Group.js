@@ -14,4 +14,12 @@ export const Group = styled.div`
       margin-left: 67px;
     }
   }
+
+  &.form {
+    flex-direction: column;
+
+    * {
+      margin-bottom: 67px;
+    }
+  }
 `;

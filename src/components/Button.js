@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  width: 239px;
+  min-width: 239px;
   height: 78px;
 
   color: #ffffff;
@@ -54,5 +54,9 @@ export const Button = styled.button`
 
   &.disabled {
     background-color: #808080;
+  }
+
+  &.lowercase {
+    text-transform: lowercase;
   }
 `;
