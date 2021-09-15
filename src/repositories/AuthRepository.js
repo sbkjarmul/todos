@@ -1,4 +1,5 @@
 import { httpClient } from '../services/HttpClient';
+import { API_URLs } from '../config/API_URLs';
 
 export class AuthRepository {
   constructor() {
@@ -7,7 +8,7 @@ export class AuthRepository {
 
   login(data) {
     return this.httpClient.post({
-      url: 'https://recruitment.ultimate.systems/auth/local',
+      url: `${API_URLs.auth}`,
       data: data,
       isTokenRequired: false,
     });

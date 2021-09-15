@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Group = styled.div`
   width: 100%;
+  position: relative;
 
   display: flex;
   justify-content: space-between;
@@ -23,7 +24,7 @@ export const Group = styled.div`
     flex-direction: column;
 
     * {
-      margin-bottom: 67px;
+      margin-bottom: 36px;
     }
   }
 `;

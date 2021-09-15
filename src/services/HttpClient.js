@@ -34,9 +34,6 @@ class HttpClientFascade {
     return this.httpClient(config);
   }
 
-  //pola12345@wp.pl
-  //12345
-
   async post({ url, data, isTokenRequired = true }) {
     const config = {
       method: 'post',

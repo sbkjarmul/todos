@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Navbar } from './Navbar';
 import { Container } from './Container';
@@ -16,7 +16,7 @@ const LoginBox = styled.div`
   justify-content: flex-start;
 
   width: 893px;
-  height: 1045px;
+  height: fit-content;
 
   background: #2d2d2d;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -26,6 +26,7 @@ const LoginBox = styled.div`
 
 const Form = styled.form`
   height: 100%;
+  width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,6 +41,7 @@ const LoginHeader = styled.h1`
   text-align: center;
 
   color: #ff9900;
+  margin-bottom: 65px;
 `;
 
 const ArrowContainer = styled.div`
@@ -50,6 +52,20 @@ const ArrowContainer = styled.div`
 const RegisteredInfo = styled.p`
   margin-top: 100px;
   color: white;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+`;
+
+const Error = styled.span`
+  font-size: 14px;
+  letter-spacing: 0.1px;
+  color: red;
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const ArrowLink = () => {
@@ -81,6 +97,7 @@ export const RegisterPage = () => {
   } = useForm();
 
   const [isRegistered, setIsRegistered] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = (data) => {
     delete data.passwordRepeat;
@@ -91,12 +108,13 @@ export const RegisterPage = () => {
     const userService = new UserService();
 
     try {
-      const { status } = userService.addUser(user);
+      const { status } = await userService.addUser(user);
+      console.log(status);
       if (status === 200) {
         setIsRegistered(true);
       }
     } catch (e) {
-      console.log(e.message);
+      setErrorMessage(e.message);
     }
   };
 
@@ -116,30 +134,34 @@ export const RegisterPage = () => {
                   type='input'
                   {...register('username', { required: true })}
                 />
-                {errors.username && <span>This field is required</span>}
-
+                {errors.username && <Error>This field is required</Error>}
+              </Group>{' '}
+              <Group className='form'>
                 <TextField
                   placeholder='Email'
                   type='email'
                   {...register('email', { required: true })}
                 />
-                {errors.email && <span>This field is required</span>}
-
+                {errors.email && <Error>This field is required</Error>}
+              </Group>{' '}
+              <Group className='form'>
                 <TextField
                   placeholder='Password'
                   type='password'
                   {...register('password', { required: true })}
                 />
-                {errors.password && <span>This field is required</span>}
-
+                {errors.password && <Error>This field is required</Error>}
+              </Group>{' '}
+              <Group className='form'>
                 <TextField
                   placeholder='Repeat password'
                   type='password'
                   {...register('passwordRepeat', { required: true })}
                 />
-                {errors.passwordRepeat && <span>This field is required</span>}
+                {errors.passwordRepeat && <Error>This field is required</Error>}
               </Group>
               <Button>Create</Button>
+              {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             </Form>
           ) : (
             <RegisteredInfo>Your account have been registered!</RegisteredInfo>

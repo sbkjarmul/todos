@@ -16,7 +16,7 @@ const LoginBox = styled.div`
   justify-content: flex-start;
 
   width: 893px;
-  height: 1045px;
+  height: fit-content;
 
   background: #2d2d2d;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -28,7 +28,7 @@ const Form = styled.form`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   color: white;
 `;
@@ -41,6 +41,22 @@ const LoginHeader = styled.h1`
   text-align: center;
 
   color: #ff9900;
+  margin-bottom: 100px;
+`;
+
+const Text = styled.p`
+  margin-top: 44px;
+  margin-top: 22px;
+`;
+
+const Error = styled.span`
+  font-size: 14px;
+  letter-spacing: 0.1px;
+  color: red;
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export const LoginPage = () => {
@@ -52,8 +68,6 @@ export const LoginPage = () => {
 
   const [isLogged, setIsLogged] = useState(false);
 
-  // const history = useHistory();
-
   const loginUser = async (user) => {
     const authService = new AuthService();
 
@@ -61,7 +75,6 @@ export const LoginPage = () => {
       const response = await authService.login(user);
 
       if (response.status === 200) {
-        // history.push('/todo');
         setIsLogged(true);
       }
     } catch (e) {
@@ -77,9 +90,6 @@ export const LoginPage = () => {
     return <Redirect to='/todo' />;
   }
 
-  //pola12345@wp.pl
-  //12345
-
   return (
     <div>
       <Navbar />
@@ -94,17 +104,19 @@ export const LoginPage = () => {
                 defaultValue='pola12345'
                 {...register('identifier', { required: true })}
               />
-              {errors.identifier && <span>This field is required</span>}
+              {errors.identifier && <Error>This field is required</Error>}
+            </Group>
+            <Group className='form'>
               <TextField
                 placeholder='Password'
                 type='password'
                 defaultValue='12345'
                 {...register('password', { required: true })}
               />
-              {errors.password && <span>This field is required</span>}
+              {errors.password && <Error>This field is required</Error>}
             </Group>
             <Button>Login</Button>
-            <span>or</span>
+            <Text>or</Text>
             <Button className='text lowercase'>
               <Link to='/register'>create an account</Link>
             </Button>

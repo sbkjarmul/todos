@@ -63,12 +63,14 @@ const SortSelect = styled.select`
   border-radius: 8px;
   border: none;
   outline: none;
+
+  appearance: none;
 `;
 
 export const TodoPage = () => {
   const [isListOpen, setIsListOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [sortType, setSortType] = useState('latest');
+  const [sortType, setSortType] = useState('Sort by');
   const dispatch = useDispatch();
   const todoLists = useSelector(selectAllLists) || [];
   const error = useSelector((state) => state.todoList.error);
@@ -178,6 +180,9 @@ export const TodoPage = () => {
           />
 
           <SortSelect name='sort' onChange={(e) => setSortType(e.target.value)}>
+            <option value='latest' hidden>
+              &#9650; Sort by
+            </option>
             <option value='latest'>Latest</option>
             <option value='newest'>Newest</option>
             <option value='asc'>Asc</option>

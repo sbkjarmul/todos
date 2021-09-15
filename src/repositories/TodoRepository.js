@@ -1,4 +1,5 @@
 import { httpClient } from '../services/HttpClient';
+import { API_URLs } from '../config/API_URLs';
 
 export class TodoRepository {
   constructor() {
@@ -7,27 +8,27 @@ export class TodoRepository {
 
   getTodoLists() {
     return this.httpClient.get({
-      url: 'https://recruitment.ultimate.systems/to-do-lists',
+      url: `${API_URLs.todo}`,
     });
   }
 
   addTodoList(data) {
     return this.httpClient.post({
-      url: 'https://recruitment.ultimate.systems/to-do-lists',
+      url: `${API_URLs.todo}`,
       data: data,
     });
   }
 
   editTodoList(data) {
     return this.httpClient.put({
-      url: `https://recruitment.ultimate.systems/to-do-lists/${data.id}`,
+      url: `${API_URLs.todo}/${data.id}`,
       data: data,
     });
   }
 
   deleteTodoList(id) {
     return this.httpClient.delete({
-      url: `https://recruitment.ultimate.systems/to-do-lists/${id}`,
+      url: `${API_URLs.todo}/${id}`,
     });
   }
 }
