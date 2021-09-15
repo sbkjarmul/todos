@@ -24,4 +24,8 @@ export const TextField = styled.input`
     padding: 6px 16px;
     font-weight: 400;
   }
+
+  &.search {
+    width: 482px;
+  }
 `;

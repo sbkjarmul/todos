@@ -28,7 +28,7 @@ const Form = styled.form`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -45,6 +45,11 @@ const LoginHeader = styled.h1`
 const ArrowContainer = styled.div`
   align-self: flex-start;
   text-decoration: none;
+`;
+
+const RegisteredInfo = styled.p`
+  margin-top: 100px;
+  color: white;
 `;
 
 const ArrowLink = () => {
@@ -75,18 +80,21 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm();
 
+  const [isRegistered, setIsRegistered] = useState(false);
+
   const onSubmit = (data) => {
     delete data.passwordRepeat;
     registerUser(data);
   };
 
   const registerUser = async (user) => {
-    console.log(user);
-
     const userService = new UserService();
 
     try {
-      userService.register(user);
+      const { status } = userService.addUser(user);
+      if (status === 200) {
+        setIsRegistered(true);
+      }
     } catch (e) {
       console.log(e.message);
     }
@@ -100,38 +108,42 @@ export const RegisterPage = () => {
           <ArrowLink></ArrowLink>
           <LoginHeader>Create an new account</LoginHeader>
 
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Group className='form'>
-              <TextField
-                placeholder='Username'
-                type='input'
-                {...register('username', { required: true })}
-              />
-              {errors.username && <span>This field is required</span>}
+          {!isRegistered ? (
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <Group className='form'>
+                <TextField
+                  placeholder='Username'
+                  type='input'
+                  {...register('username', { required: true })}
+                />
+                {errors.username && <span>This field is required</span>}
 
-              <TextField
-                placeholder='Email'
-                type='email'
-                {...register('email', { required: true })}
-              />
-              {errors.email && <span>This field is required</span>}
+                <TextField
+                  placeholder='Email'
+                  type='email'
+                  {...register('email', { required: true })}
+                />
+                {errors.email && <span>This field is required</span>}
 
-              <TextField
-                placeholder='Password'
-                type='password'
-                {...register('password', { required: true })}
-              />
-              {errors.password && <span>This field is required</span>}
+                <TextField
+                  placeholder='Password'
+                  type='password'
+                  {...register('password', { required: true })}
+                />
+                {errors.password && <span>This field is required</span>}
 
-              <TextField
-                placeholder='Repeat password'
-                type='password'
-                {...register('passwordRepeat', { required: true })}
-              />
-              {errors.passwordRepeat && <span>This field is required</span>}
-            </Group>
-            <Button>Create</Button>
-          </Form>
+                <TextField
+                  placeholder='Repeat password'
+                  type='password'
+                  {...register('passwordRepeat', { required: true })}
+                />
+                {errors.passwordRepeat && <span>This field is required</span>}
+              </Group>
+              <Button>Create</Button>
+            </Form>
+          ) : (
+            <RegisteredInfo>Your account have been registered!</RegisteredInfo>
+          )}
         </LoginBox>
       </Container>
     </div>

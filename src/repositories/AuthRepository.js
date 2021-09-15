@@ -1,13 +1,13 @@
 import { httpClient } from '../services/HttpClient';
 
-export class UserRepository {
+export class AuthRepository {
   constructor() {
     this.httpClient = httpClient;
   }
 
-  addUser(data) {
+  login(data) {
     return this.httpClient.post({
-      url: 'https://recruitment.ultimate.systems/auth/local/register',
+      url: 'https://recruitment.ultimate.systems/auth/local',
       data: data,
       isTokenRequired: false,
     });

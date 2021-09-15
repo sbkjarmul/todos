@@ -15,6 +15,10 @@ export const Group = styled.div`
     }
   }
 
+  &.search {
+    justify-content: space-between;
+  }
+
   &.form {
     flex-direction: column;
 

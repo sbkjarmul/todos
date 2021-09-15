@@ -5,17 +5,21 @@ export class UserService {
   userMapper = new UserMapper();
   userRepository = new UserRepository();
 
-  async login(user) {
-    const dto = this.userMapper.fromDomainToDto(user);
-    const response = await this.userRepository.login(dto);
+  // setItem(response) {
+  //   localStorage.setItem('token', `Bearer ${response.data.jwt}`);
+  // }
 
-    localStorage.setItem('token', `Bearer ${response.data.jwt}`);
-    return response;
-  }
+  // async login(domain) {
+  //   const dto = this.userMapper.fromDomainToDto(domain);
+  //   const response = await this.userRepository.login(dto);
+  //   this.setItem(response);
 
-  async register(user) {
-    const dto = this.userMapper.fromDomainToDto(user);
-    const response = await this.userRepository.register(dto);
+  //   return response;
+  // }
+
+  async addUser(domain) {
+    const dto = this.userMapper.fromDomainToDto(domain);
+    const response = await this.userRepository.addUser(dto);
 
     return response;
   }

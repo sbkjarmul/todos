@@ -4,6 +4,7 @@ import { Logo } from './Logo';
 import { LogoutIcon } from './LogoutIcon';
 import { useHistory } from 'react-router-dom';
 import { Button } from './Button';
+import { AuthService } from '../services/AuthService';
 
 const NavbarContainer = styled.nav`
   display: flex;
@@ -16,10 +17,11 @@ const NavbarContainer = styled.nav`
 
 export const Navbar = ({ isLogout = false }) => {
   const history = useHistory();
+  const authService = new AuthService();
 
   const onLogout = () => {
+    authService.removeToken();
     history.push('/');
-    localStorage.removeItem('token');
   };
 
   return (

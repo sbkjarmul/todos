@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Navbar } from './Navbar';
 import { Container } from './Container';
@@ -7,7 +7,7 @@ import { TextField } from './TextField';
 import { Button } from './Button';
 import { Group } from './Group';
 import { useForm } from 'react-hook-form';
-import { UserService } from '../services/UserService';
+import { AuthService } from '../services/AuthService';
 
 const LoginBox = styled.div`
   display: flex;
@@ -50,27 +50,32 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm();
 
-  const history = useHistory();
+  const [isLogged, setIsLogged] = useState(false);
+
+  // const history = useHistory();
 
   const loginUser = async (user) => {
-    const userService = new UserService();
+    const authService = new AuthService();
 
     try {
-      const response = await userService.login(user);
+      const response = await authService.login(user);
 
       if (response.status === 200) {
-        history.push('/todo');
+        // history.push('/todo');
+        setIsLogged(true);
       }
-      console.log(response);
     } catch (e) {
       console.log(e.message);
     }
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     loginUser(data);
   };
+
+  if (isLogged) {
+    return <Redirect to='/todo' />;
+  }
 
   //pola12345@wp.pl
   //12345
