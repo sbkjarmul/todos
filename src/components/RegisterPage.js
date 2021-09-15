@@ -135,7 +135,8 @@ export const RegisterPage = () => {
                   {...register('username', { required: true })}
                 />
                 {errors.username && <Error>This field is required</Error>}
-              </Group>{' '}
+              </Group>
+
               <Group className='form'>
                 <TextField
                   placeholder='Email'
@@ -143,7 +144,8 @@ export const RegisterPage = () => {
                   {...register('email', { required: true })}
                 />
                 {errors.email && <Error>This field is required</Error>}
-              </Group>{' '}
+              </Group>
+
               <Group className='form'>
                 <TextField
                   placeholder='Password'
@@ -151,7 +153,8 @@ export const RegisterPage = () => {
                   {...register('password', { required: true })}
                 />
                 {errors.password && <Error>This field is required</Error>}
-              </Group>{' '}
+              </Group>
+
               <Group className='form'>
                 <TextField
                   placeholder='Repeat password'
