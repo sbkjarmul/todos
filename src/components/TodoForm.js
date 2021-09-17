@@ -29,7 +29,6 @@ const Todos = styled.ul`
 `;
 
 export const TodoForm = ({ closeForm, listData = {}, isEdit = false }) => {
-  console.log('Todoform render');
   const [todos, setTodos] = useState(listData.task || []);
   const [listName, setListName] = useState(listData.name || '');
   const dispatch = useDispatch();
